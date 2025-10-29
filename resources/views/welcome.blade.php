@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Frontend</title>
+    <link rel="icon" href="{{ asset('images/circulo_verde.png') }}" type="image/x-icon">
     @vite('resources/css/app.css')
 </head>
 
 <body>
-    <div id="container" class="p-4">
+    <div id="container" class="p-4 mx-32">
         <div id="results" class="border border-dashed border-slate-400 m-4 p-2">
             <div class="border border-dashed border-slate-400 m-2 p-2">
                 <h3>Listado de productos</h3>
@@ -54,7 +55,9 @@
                             </div>
                             @endif
 
-                            <div class="text-slate-600 text-sm">{{ $product['description'] }}</div>
+                            <div class="text-slate-600 text-sm">
+                                {{ Illuminate\Support\Str::limit($product['description'], 120) }}
+                            </div>
 
                             <div class="mt-2 flex justify-end">ARS {{ number_format($product['price'],2) }}</div>
                         </div>
