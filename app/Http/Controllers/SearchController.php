@@ -25,25 +25,28 @@ class SearchController extends Controller
         ]);
     }
 
-    public function searchByName(Request $request): View
+    public function search(Request $request): View
     {
+        $criteria = $request->input('criteria');
+        $value = $request->input('value');
+
         $query = [
             'customer_group' => 0,
-            'value' => $request->input('name'),
-            'criteria' => 'by_name',
+            'value' => $value,
+            'criteria' => $criteria,
         ];
-
-        $stores = $this->getStores();
-        $collections = [];
-        $categories = $this->getCategories();
-        $brands = $this->getBrands();
-        $cartItems = $this->getCartItems();
 
         $base_url = config('app.lunar.url');
         $response = Http::withToken(config('app.lunar.token'))
             ->get($base_url . '/search/products', $query);
 
         $products = $response->json('data');
+
+        $stores = $this->getStores();
+        $collections = [];
+        $categories = $this->getCategories();
+        $brands = $this->getBrands();
+        $cartItems = $this->getCartItems();
 
         return view('welcome', [
             'categories' => $categories,
@@ -55,65 +58,95 @@ class SearchController extends Controller
         ]);
     }
 
-    public function searchByCategory(Request $request): View
-    {
-        $query = [
-            'customer_group' => 0,
-            'value' => $request->input('category_id'),
-            'criteria' => 'by_category',
-        ];
+    // public function searchByName(Request $request): View
+    // {
+    //     $query = [
+    //         'customer_group' => 0,
+    //         'value' => $request->input('name'),
+    //         'criteria' => 'by_name',
+    //     ];
 
-        $stores = $this->getStores();
-        $collections = [];
-        $categories = $this->getCategories();
-        $brands = $this->getBrands();
-        $cartItems = $this->getCartItems();
+    //     $stores = $this->getStores();
+    //     $collections = [];
+    //     $categories = $this->getCategories();
+    //     $brands = $this->getBrands();
+    //     $cartItems = $this->getCartItems();
 
-        $base_url = config('app.lunar.url');
-        $response = Http::withToken(config('app.lunar.token'))
-            ->get($base_url . '/search/products', $query);
+    //     $base_url = config('app.lunar.url');
+    //     $response = Http::withToken(config('app.lunar.token'))
+    //         ->get($base_url . '/search/products', $query);
 
-        $products = $response->json('data');
+    //     $products = $response->json('data');
 
-        return view('welcome', [
-            'categories' => $categories,
-            'brands' => $brands,
-            'collections' => $collections,
-            'products' => $products,
-            'stores' => $stores,
-            'cartItems' => $cartItems,
-        ]);
-    }
+    //     return view('welcome', [
+    //         'categories' => $categories,
+    //         'brands' => $brands,
+    //         'collections' => $collections,
+    //         'products' => $products,
+    //         'stores' => $stores,
+    //         'cartItems' => $cartItems,
+    //     ]);
+    // }
 
-    public function searchByBrand(Request $request): View
-    {
-        $query = [
-            'customer_group' => 0,
-            'value' => $request->input('brand_id'),
-            'criteria' => 'by_brand',
-        ];
+    // public function searchByCategory(Request $request): View
+    // {
+    //     $query = [
+    //         'customer_group' => 0,
+    //         'value' => $request->input('category_id'),
+    //         'criteria' => 'by_category',
+    //     ];
 
-        $stores = $this->getStores();
-        $collections = [];
-        $categories = $this->getCategories();
-        $brands = $this->getBrands();
-        $cartItems = $this->getCartItems();
+    //     $stores = $this->getStores();
+    //     $collections = [];
+    //     $categories = $this->getCategories();
+    //     $brands = $this->getBrands();
+    //     $cartItems = $this->getCartItems();
 
-        $base_url = config('app.lunar.url');
-        $response = Http::withToken(config('app.lunar.token'))
-            ->get($base_url . '/search/products', $query);
+    //     $base_url = config('app.lunar.url');
+    //     $response = Http::withToken(config('app.lunar.token'))
+    //         ->get($base_url . '/search/products', $query);
 
-        $products = $response->json('data');
+    //     $products = $response->json('data');
 
-        return view('welcome', [
-            'categories' => $categories,
-            'brands' => $brands,
-            'collections' => $collections,
-            'products' => $products,
-            'stores' => $stores,
-            'cartItems' => $cartItems,
-        ]);
-    }
+    //     return view('welcome', [
+    //         'categories' => $categories,
+    //         'brands' => $brands,
+    //         'collections' => $collections,
+    //         'products' => $products,
+    //         'stores' => $stores,
+    //         'cartItems' => $cartItems,
+    //     ]);
+    // }
+
+    // public function searchByBrand(Request $request): View
+    // {
+    //     $query = [
+    //         'customer_group' => 0,
+    //         'value' => $request->input('brand_id'),
+    //         'criteria' => 'by_brand',
+    //     ];
+
+    //     $stores = $this->getStores();
+    //     $collections = [];
+    //     $categories = $this->getCategories();
+    //     $brands = $this->getBrands();
+    //     $cartItems = $this->getCartItems();
+
+    //     $base_url = config('app.lunar.url');
+    //     $response = Http::withToken(config('app.lunar.token'))
+    //         ->get($base_url . '/search/products', $query);
+
+    //     $products = $response->json('data');
+
+    //     return view('welcome', [
+    //         'categories' => $categories,
+    //         'brands' => $brands,
+    //         'collections' => $collections,
+    //         'products' => $products,
+    //         'stores' => $stores,
+    //         'cartItems' => $cartItems,
+    //     ]);
+    // }
 
     private function getCategories(): array
     {

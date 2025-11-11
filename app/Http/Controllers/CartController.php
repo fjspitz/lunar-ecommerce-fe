@@ -26,13 +26,13 @@ class CartController extends Controller
         $base_url = config('app.lunar.url');
         $response = Http::withToken(config('app.lunar.token'))
             ->post($base_url . '/carts/1/lines', [
-                'purchasable_id' => $product_id,
+                'product_id' => $product_id,
                 'quantity' => 1,
             ]);
 
-        info($response->status());
+        //info($response->status());
 
-        return redirect('/');
+        return redirect('/cart');
     }
 
     private function getCartItems(): array
@@ -41,6 +41,6 @@ class CartController extends Controller
         $response = Http::withToken(config('app.lunar.token'))
             ->get($base_url . '/carts/1');
 
-        return $response->json('data');
+        return $response->json('data.lines');
     }
 }
